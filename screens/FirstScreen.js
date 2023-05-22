@@ -21,25 +21,7 @@ function FirstScreen({ navigation, route }) {
 
 
     useEffect(() => {
-        async function getData() {
-            setFetching(true)
-            try {
-                console.log(route.params.url)
-                var tempFeed = await fetchRss(route.params.url)
-                const tempArticles = tempFeed.items.map((feed) => new Article(Date.now().toString() + Math.random().toString(), feed.links[0].url, feed.title, feed.description, feed.published, false,))
-                setArticles(tempArticles)
 
-
-
-            }
-
-            catch (err) {
-                console.log(`There was an error fetching feeds in Firstscreen: useEffect error:: ${err} `)
-            }
-            setFetching(false)
-            // console.log(`Show feeds: ${articles.items}`)
-
-        }
         getData()
 
     }, [])
@@ -52,7 +34,7 @@ function FirstScreen({ navigation, route }) {
                 const read = await hasRead(article.url)
 
                 if (Object.values(read.rows._array[0])[0]) {
-                   console.log(`in setRead() gonna set value ${index}`)
+                    
                     const copyFeed = articles
                     copyFeed[index] = new Article(article.id, article.url, article.title, article.description, article.date, true)
                     setArticles(copyFeed)
@@ -66,7 +48,27 @@ function FirstScreen({ navigation, route }) {
 
 
     }
+    async function getData() {
+       
+        setReading(false)
+        setFetching(true)
+        try {
+            console.log(route.params.url)
+            var tempFeed = await fetchRss(route.params.url)
+            const tempArticles = tempFeed.items.map((feed) => new Article(Date.now().toString() + Math.random().toString(), feed.links[0].url, feed.title, feed.description, feed.published, false,))
+            setArticles(tempArticles)
 
+
+
+        }
+
+        catch (err) {
+            console.log(`There was an error fetching feeds in Firstscreen: useEffect error:: ${err} `)
+        }
+        setFetching(false)
+        // console.log(`Show feeds: ${articles.items}`)
+
+    }
 
     function listItemPressHandler(article) {
         var copyFeed = articles
@@ -85,12 +87,13 @@ function FirstScreen({ navigation, route }) {
 
     }
     function renderItem({ item }) {
+        console.log(`Will fetch data: ${item.description}`)
         return <View>
 
             <ListItem onPress={() => { listItemPressHandler(item) }} containerStyle={[styles.itemOuterContainer, item.hasRead ? styles.read : styles.notRead]} bottomDivider   >
                 <ListItem.Content    >
                     <ListItem.Title style={{ color: Colors.primary800, fontSize: 15, fontWeight: 'bold' }} >{item.title}</ListItem.Title>
-                    <ListItem.Subtitle>{item.description.trim()}</ListItem.Subtitle>
+                    <ListItem.Subtitle>{item.description ? item.description.trim() : ''}</ListItem.Subtitle>
                     <ListItem.Subtitle></ListItem.Subtitle>
                     <ListItem.Subtitle style={{ color: Colors.primary800, fontSize: 12, fontWeight: 'bold', alignSelf: 'flex-end' }}>{item.date}</ListItem.Subtitle>
 
@@ -104,7 +107,8 @@ function FirstScreen({ navigation, route }) {
 
     return <View style={styles.outerContainer}>
 
-        {fetching ? <LoadingOverlay /> : <FlatList data={articles} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />}
+        {fetching ? <LoadingOverlay /> : <FlatList onRefresh={() => getData()}
+            refreshing={fetching} data={articles} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />}
 
 
     </View>
