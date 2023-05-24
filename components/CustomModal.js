@@ -1,5 +1,5 @@
-import { StyleSheet, Modal, Dimensions, View, TextInput, Button, Text } from "react-native";
-import { useState, useContext } from "react";
+import { StyleSheet, Modal, Dimensions, View, TextInput, Button, Text, Alert } from "react-native";
+import { useState, useContext, } from "react";
 import Colors from "../constants/Colors";
 import { FeedsContext } from "../state/context/feeds-context";
 import { fetchRss } from "../util/RssUtil";
@@ -32,9 +32,18 @@ function CustomModal({ isVisible, onDismiss }) {
             )
             setError("Error fetching this feed... make sure the link is a valid rss and your connection is stable ")
         }
+        
 
 
 
+
+    }
+
+    function onExplore() {
+        Alert.alert('TODO', 'The explore feature has not been implemented yet :( Can only add directly from rss url', [
+           
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ]);
 
     }
     return (<Modal animationType="slide"
@@ -54,7 +63,9 @@ function CustomModal({ isVisible, onDismiss }) {
                 {/** This button is responsible to close the modal */}
                 <View style={styles.buttonContainer}>
                     <Button color={Colors.primary500} title="Enter" onPress={onAdd} />
+                    <Button color={'green'} title="Explore" onPress={onExplore} />
                     <Button color={'red'} title="Close" onPress={onDismiss} />
+                    
                 </View>
 
 
@@ -105,6 +116,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         flexDirection: 'row',
         width: '100%',
+        marginTop: 10,
+        marginBottom: 10,
 
 
     },

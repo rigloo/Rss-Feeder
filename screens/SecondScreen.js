@@ -4,7 +4,12 @@ import { WebView } from 'react-native-webview';
 
 function SecondScreen({ navigation, route }) {
 
-    
+
+
+
+    const injectJS = `$('a').contents().unwrap();`
+
+
 
     async function extractWebsite() {
         // const article = await extract(route.params)
@@ -13,7 +18,9 @@ function SecondScreen({ navigation, route }) {
     extractWebsite()
 
     return <View style={styles.outerContainer}>
-        <WebView  injectedJavaScript="" javaScriptEnabled = {false} source={{ uri: route.params }} style={{ flex: 1 }} />
+        <WebView onMessage={(event) => { }}
+            ref={() => { }}
+            injectedJavaScript={injectJS} javaScriptEnabled={false} source={{ uri: route.params }} style={{ flex: 1 }} />
     </View>
 
 }

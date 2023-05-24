@@ -34,7 +34,7 @@ function CustomDrawerContent(props) {
     }
 
     return (
-        <DrawerContentScrollView   {...props}>
+        <DrawerContentScrollView contentContainerStyle={styles.drawerStyle}  {...props}>
             <View style={styles.outerContainer}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.headerText}>My Feeds</Text>
@@ -42,7 +42,7 @@ function CustomDrawerContent(props) {
                 <DrawerItemList {...props} />
 
                 <View style={styles.fabStyle}>
-                    <IconButton contentContainerStyle={{ backgroundColor: Colors.primary500 }} onPress={() => { setModalVisible(true) }} icon={props => <Ionicons name="add" size={20} />}
+                    <IconButton contentContainerStyle={{ backgroundColor: Colors.secondary800 }} onPress={() => { setModalVisible(true) }} icon={props => <Ionicons name="add" size={20} />}
                         color={Colors.primary500} />
                 </View>
                 <CustomModal isVisible={isModalVisible} onDismiss={toggleModalVisibility} />
@@ -56,11 +56,11 @@ export default CustomDrawerContent
 
 const styles = StyleSheet.create({
     outerContainer: {
-
+        flex:1,
         flexDirection: 'column',
-        height: '100%',
-        width: '100%',
-        justifyContent: 'space-between'
+        
+        
+        
     },
     headerContainer: {
         height: 50,
@@ -68,21 +68,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 10,
     },
     headerText: {
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        
 
     },
     fabStyle: {
         flexDirection: 'row',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        position:'absolute',
+        bottom:0,
+        marginBottom: 50,
+
+    },
+
+    drawerStyle: {
         
-
-
-
-
-
+        backgroundColor: Colors.primary500,
+        flex:1,
     }
 
 

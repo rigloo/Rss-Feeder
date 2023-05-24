@@ -46,6 +46,7 @@ function DrawerNavigator() {
   return (
     <Drawer.Navigator
       screenOptions={{
+       
         headerTitleStyle: {
           color: Colors.secondary500
         },
@@ -66,13 +67,19 @@ function DrawerNavigator() {
           backgroundColor: Colors.primary800,
 
         },
+        drawerActiveBackgroundColor: Colors.secondary500,
+        drawerActiveTintColor: 'black',
+        drawerInactiveTintColor: 'white',
+        drawerInactiveBackgroundColor: Colors.primary800
+
 
       }}
       drawerType="front"
       drawerContent={props => <CustomDrawerContent {...props} />}
       drawerContentOptions={{
-        activeTintColor: Colors.secondary500,
+
         itemStyle: { marginVertical: 10 },
+
       }}
 
     >
@@ -84,7 +91,7 @@ function DrawerNavigator() {
             key={feed.id} component={FirstScreen} options={{
               title: feed.name, drawerIcon: ({ focused, size }) => (
 
-                <IconButton onPress={() => { feedsCtx.removeFeed(feed.id) }} style={{ position: 'absolute', right: 4 }} icon={props => <Ionicons name="trash" size={20} />}
+                <IconButton onPress={() => { feedsCtx.removeFeed(feed.id) }} style={{ position: 'absolute', right: 4,  }} icon={props => <Ionicons name="trash" size={20} color={'red'} />}
                   color={Colors.primary500} />
               )
             }}
@@ -149,7 +156,7 @@ export default function App() {
           }}>
             <Stack.Screen name={Routes.drawerNavigator} component={DrawerNavigator} options={{ headerShown: false, headerTintColor: Colors.secondary500, navigationBarColor: Colors.primary800, }} />
 
-            <Stack.Screen name={Routes.secondScreen} component={SecondScreen} options={{ title: 'Second Screen' }} />
+            <Stack.Screen name={Routes.secondScreen} component={SecondScreen} options={{ title: 'Article View' }} />
           </Stack.Navigator>
 
 

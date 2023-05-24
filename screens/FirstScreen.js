@@ -34,7 +34,7 @@ function FirstScreen({ navigation, route }) {
                 const read = await hasRead(article.url)
 
                 if (Object.values(read.rows._array[0])[0]) {
-                    
+
                     const copyFeed = articles
                     copyFeed[index] = new Article(article.id, article.url, article.title, article.description, article.date, true)
                     setArticles(copyFeed)
@@ -49,7 +49,7 @@ function FirstScreen({ navigation, route }) {
 
     }
     async function getData() {
-       
+
         setReading(false)
         setFetching(true)
         try {
@@ -57,8 +57,6 @@ function FirstScreen({ navigation, route }) {
             var tempFeed = await fetchRss(route.params.url)
             const tempArticles = tempFeed.items.map((feed) => new Article(Date.now().toString() + Math.random().toString(), feed.links[0].url, feed.title, feed.description, feed.published, false,))
             setArticles(tempArticles)
-
-
 
         }
 
@@ -70,16 +68,18 @@ function FirstScreen({ navigation, route }) {
 
     }
 
-    function listItemPressHandler(article) {
-        var copyFeed = articles
+    async function listItemPressHandler(article) {
+        const copyFeed = articles
         if (!article.hasRead) {
-            console.log("must switch read color")
-            insertRead(article.url)
+            await insertRead(article.url)
             const index = articles.findIndex((el) => el.id === article.id)
-            console.log(`About to switch url: ${article.url} with index ${index}`)
-            copyFeed[index] = new Article(article.id, article.url, article.title, article.description, article.date, true)
-            console.log(copyFeed[index])
-            setArticles(copyFeed)
+            setArticles((old_articles) => [...old_articles.map((el, indexM) => {
+                if (indexM === index)
+                    return new Article(article.id, article.url, article.title, article.description, article.date, true)
+                else
+                    return el
+            })])
+            setReading(false)
         }
 
 
@@ -87,12 +87,11 @@ function FirstScreen({ navigation, route }) {
 
     }
     function renderItem({ item }) {
-        console.log(`Will fetch data: ${item.description}`)
         return <View>
 
             <ListItem onPress={() => { listItemPressHandler(item) }} containerStyle={[styles.itemOuterContainer, item.hasRead ? styles.read : styles.notRead]} bottomDivider   >
                 <ListItem.Content    >
-                    <ListItem.Title style={{ color: Colors.primary800, fontSize: 15, fontWeight: 'bold' }} >{item.title}</ListItem.Title>
+                    <ListItem.Title style={{ color: Colors.primary800, fontSize: 15, fontWeight: 'bold' }} >{item.title.trim()}</ListItem.Title>
                     <ListItem.Subtitle>{item.description ? item.description.trim() : ''}</ListItem.Subtitle>
                     <ListItem.Subtitle></ListItem.Subtitle>
                     <ListItem.Subtitle style={{ color: Colors.primary800, fontSize: 12, fontWeight: 'bold', alignSelf: 'flex-end' }}>{item.date}</ListItem.Subtitle>
