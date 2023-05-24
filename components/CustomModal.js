@@ -5,6 +5,7 @@ import { FeedsContext } from "../state/context/feeds-context";
 import { fetchRss } from "../util/RssUtil";
 import { set } from "react-native-reanimated";
 import Feed from "../model/Feed";
+import LoadingOverlay from "./LoadingOveraly";
 
 const { width } = Dimensions.get("window");
 function CustomModal({ isVisible, onDismiss }) {
@@ -16,6 +17,7 @@ function CustomModal({ isVisible, onDismiss }) {
 
 
     async function onAdd() {
+        setAdding(true)
         if (inputValue === '') {
             console.log('No empty strings')
             return
@@ -25,6 +27,7 @@ function CustomModal({ isVisible, onDismiss }) {
             const feed = new Feed(0, inputValue, parsed.title)
             feedsCtx.addFeed(feed)
             onDismiss()
+            setInputValue('')
 
         }
         catch (err) {
@@ -33,7 +36,8 @@ function CustomModal({ isVisible, onDismiss }) {
             )
             setError("Error fetching this feed... make sure the link is a valid rss and your connection is stable ")
         }
-        
+        setAdding(false)
+
 
 
 
@@ -42,9 +46,9 @@ function CustomModal({ isVisible, onDismiss }) {
 
     function onExplore() {
         Alert.alert('TODO', 'The explore feature has not been implemented yet :( Can only add directly from rss url', [
-           
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-          ]);
+
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ]);
 
     }
     return (<Modal animationType="slide"
@@ -52,23 +56,30 @@ function CustomModal({ isVisible, onDismiss }) {
         presentationStyle="overFullScreen"
         onDismiss={onDismiss}>
         <View style={styles.viewWrapper}>
-            
-            <View style={styles.modalView}>
-                <Text style={styles.errorText}> {error} </Text>
-                <TextInput placeholder="Enter the link to an rss"
-                    value={inputValue} style={styles.textInput}
-                    onChangeText={(value) => {
-                        setError('')
-                        setInputValue(value)
-                    }} />
 
-                {/** This button is responsible to close the modal */}
-                <View style={styles.buttonContainer}>
-                    <Button color={Colors.primary500} title="Enter" onPress={onAdd} />
-                    <Button color={'green'} title="Explore" onPress={onExplore} />
-                    <Button color={'red'} title="Close" onPress={onDismiss} />
-                    
-                </View>
+            <View style={styles.modalView}>
+                {isAdding ? <LoadingOverlay /> : <View style={styles.modalView}>
+                    <Text style={styles.errorText}> {error} </Text>
+                    <TextInput scrollEnabled placeholder="Enter the link to an rss"
+                        value={inputValue} style={styles.textInput}
+                        onChangeText={(value) => {
+                            setError('')
+                            setInputValue(value)
+                        }} />
+
+                    {/** This button is responsible to close the modal */}
+                    <View style={styles.buttonContainer}>
+                        <Button color={Colors.primary500} title="Enter" onPress={onAdd} />
+                        <Button color={'green'} title="Explore" onPress={onExplore} />
+                        <Button color={'red'} title="Close" onPress={() => {
+                            setError('')
+                            setInputValue('')
+                            onDismiss()
+                        }} />
+
+                    </View>
+                </View>}
+
 
 
 
