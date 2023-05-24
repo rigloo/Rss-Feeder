@@ -11,6 +11,7 @@ import { FeedsContext } from '../state/context/feeds-context';
 import CustomModal from './CustomModal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IconButton } from "@react-native-material/core";
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -35,18 +36,21 @@ function CustomDrawerContent(props) {
 
     return (
         <DrawerContentScrollView contentContainerStyle={styles.drawerStyle}  {...props}>
-            <View style={styles.outerContainer}>
-                <View style={styles.headerContainer}>
-                    <Text style={styles.headerText}>My Feeds</Text>
-                </View>
-                <DrawerItemList {...props} />
+            <ScrollView>
+                <View style={styles.outerContainer}>
+                    <View style={styles.headerContainer}>
+                        <Text style={styles.headerText}>My Feeds</Text>
+                    </View>
+                    <DrawerItemList {...props} />
 
-                <View style={styles.fabStyle}>
-                    <IconButton contentContainerStyle={{ backgroundColor: Colors.secondary800 }} onPress={() => { setModalVisible(true) }} icon={props => <Ionicons name="add" size={20} />}
-                        color={Colors.primary500} />
+                   
+                    <CustomModal isVisible={isModalVisible} onDismiss={toggleModalVisibility} />
                 </View>
-                <CustomModal isVisible={isModalVisible} onDismiss={toggleModalVisibility} />
-            </View>
+            </ScrollView>
+            <View style={styles.fabStyle}>
+                        <IconButton contentContainerStyle={{ backgroundColor: Colors.secondary800 }} onPress={() => { setModalVisible(true) }} icon={props => <Ionicons name="add" size={20} />}
+                            color={Colors.primary500} />
+                    </View>
         </DrawerContentScrollView>
     );
 }
@@ -56,11 +60,9 @@ export default CustomDrawerContent
 
 const styles = StyleSheet.create({
     outerContainer: {
-        flex:1,
+        flex: 1,
         flexDirection: 'column',
-        
-        
-        
+
     },
     headerContainer: {
         height: 50,
@@ -73,22 +75,22 @@ const styles = StyleSheet.create({
     headerText: {
         fontWeight: 'bold',
         fontSize: 16,
-        
+
 
     },
     fabStyle: {
         flexDirection: 'row',
         alignSelf: 'center',
-        position:'absolute',
-        bottom:0,
+        position: 'absolute',
+        bottom: 0,
         marginBottom: 50,
 
     },
 
     drawerStyle: {
-        
+
         backgroundColor: Colors.primary500,
-        flex:1,
+        flex: 1,
     }
 
 

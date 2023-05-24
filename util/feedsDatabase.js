@@ -25,9 +25,9 @@ export function insertFeed(feed) {
         database.transaction((tx) => {
             tx.executeSql(`INSERT INTO feeds (url, name) VALUES (?,?)`,
                 [feed.url, feed.name],
-                () => { resolve() },
-                (_, error) => { reject() });
-
+                (_, result) => { resolve(result) },
+                (_, error) => { reject(error) });
+            
         });
     })
     return promise

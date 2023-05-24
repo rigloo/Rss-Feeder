@@ -17,6 +17,7 @@ import AppLoading from 'expo-app-loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IconButton } from "@react-native-material/core";
 import { init as initRead } from './util/readDb';
+import Feed from './model/Feed';
 
 
 
@@ -46,7 +47,7 @@ function DrawerNavigator() {
   return (
     <Drawer.Navigator
       screenOptions={{
-       
+
         headerTitleStyle: {
           color: Colors.secondary500
         },
@@ -83,15 +84,20 @@ function DrawerNavigator() {
       }}
 
     >
+
+      <Drawer.Screen name={"CNN Latest" + '-1'} initialParams={new Feed(-1, 'http://rss.cnn.com/rss/cnn_latest.rss', 'CNN Latest')}
+        key={-1} component={FirstScreen} options={{
+          title: "CNN Latest",
+        }}
+      />
       {
-
         feedsCtx.feeds.map(feed => {
-
+          //console.log(feed.id)
           return <Drawer.Screen name={feed.name + feed.id} initialParams={feed}
             key={feed.id} component={FirstScreen} options={{
               title: feed.name, drawerIcon: ({ focused, size }) => (
 
-                <IconButton onPress={() => { feedsCtx.removeFeed(feed.id) }} style={{ position: 'absolute', right: 4,  }} icon={props => <Ionicons name="trash" size={20} color={'red'} />}
+                <IconButton onPress={() => { feedsCtx.removeFeed(feed.id) }} style={{ position: 'absolute', right: 4, }} icon={props => <Ionicons name="trash" size={20} color={'red'} />}
                   color={Colors.primary500} />
               )
             }}

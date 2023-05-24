@@ -15,15 +15,20 @@ function FeedsContextProvider({ children }) {
 
     const [feeds, setFeeds] = useState([])
 
-    function addFeed(feed) {
-        insertFeed(feed)
-        setFeeds((currentFeeds) => [...currentFeeds, feed])
+    async function addFeed(feed) {
+        try {
+            const result = await insertFeed(feed)
+            setFeeds((currentFeeds) => [...currentFeeds, new Feed(result.insertId, feed.url, feed.name)])
+        }
+        catch (err) {
+            console.log(`Error when adding feed in addFeed(): ${err}`)
+        }
     }
 
     async function fetchFeeds() {
         console.log(`Dash with the bops!`)
         const result = await dbFetchFeeds()
-        const feeds = [new Feed(1, 'http://rss.cnn.com/rss/cnn_latest.rss', 'CNN Latest'),]
+        const feeds = []
         feeds.push()
 
         for (const feed of result.rows._array) {

@@ -12,6 +12,7 @@ function CustomModal({ isVisible, onDismiss }) {
     // This is to manage TextInput State
     const [inputValue, setInputValue] = useState("");
     const [error, setError] = useState("");
+    const [isAdding, setAdding] = useState(false)
 
 
     async function onAdd() {
@@ -51,6 +52,7 @@ function CustomModal({ isVisible, onDismiss }) {
         presentationStyle="overFullScreen"
         onDismiss={onDismiss}>
         <View style={styles.viewWrapper}>
+            
             <View style={styles.modalView}>
                 <Text style={styles.errorText}> {error} </Text>
                 <TextInput placeholder="Enter the link to an rss"
