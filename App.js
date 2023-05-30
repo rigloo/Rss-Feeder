@@ -18,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IconButton } from "@react-native-material/core";
 import { init as initRead } from './util/readDb';
 import Feed from './model/Feed';
+import * as SplashScreen from 'expo-splash-screen';
 
 
 

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "rigos_app",
+    "name": "Feeder",
     "slug": "rigos_app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#3F72AF"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,11 +20,17 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#3F72AF"
+      },
+      "package": "com.rigloo.rigos_app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7d30ba01-7e6a-4d55-b2f7-b006e4450460"
+      }
     }
   }
 }

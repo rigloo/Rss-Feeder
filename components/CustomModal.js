@@ -17,12 +17,13 @@ function CustomModal({ isVisible, onDismiss }) {
 
 
     async function onAdd() {
-        setAdding(true)
+        
         if (inputValue === '') {
             console.log('No empty strings')
             return
         }
         try {
+            setAdding(true)
             const parsed = await fetchRss(inputValue)
             const feed = new Feed(0, inputValue, parsed.title)
             feedsCtx.addFeed(feed)
@@ -60,7 +61,7 @@ function CustomModal({ isVisible, onDismiss }) {
             <View style={styles.modalView}>
                 {isAdding ? <LoadingOverlay /> : <View style={styles.modalView}>
                     <Text style={styles.errorText}> {error} </Text>
-                    <TextInput scrollEnabled placeholder="Enter the link to an rss"
+                    <TextInput  scrollEnabled placeholder="Enter the link to an rss"
                         value={inputValue} style={styles.textInput}
                         onChangeText={(value) => {
                             setError('')
@@ -69,7 +70,7 @@ function CustomModal({ isVisible, onDismiss }) {
 
                     {/** This button is responsible to close the modal */}
                     <View style={styles.buttonContainer}>
-                        <Button color={Colors.primary500} title="Enter" onPress={onAdd} />
+                        <Button color={Colors.primary800} title="Enter" onPress={onAdd} />
                         <Button color={'green'} title="Explore" onPress={onExplore} />
                         <Button color={'red'} title="Close" onPress={() => {
                             setError('')
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         { translateY: -90 }],
         height: 180,
         width: width * 0.8,
-        backgroundColor: "#fff",
+        backgroundColor: Colors.primary500,
         borderRadius: 7,
     },
     textInput: {
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
         borderColor: "rgba(0, 0, 0, 0.2)",
         borderWidth: 1,
         marginBottom: 8,
+        backgroundColor:'white'
     },
     buttonContainer: {
         justifyContent: 'space-evenly',
