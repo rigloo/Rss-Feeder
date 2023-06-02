@@ -53,7 +53,7 @@ function FirstScreen({ navigation, route }) {
         setReading(false)
         setFetching(true)
         try {
-            console.log(route.params.url)
+            console.log(`In FirstScreen -> getData() with url: ${route.params.url}`)
             var tempFeed = await fetchRss(route.params.url)
             const tempArticles = tempFeed.items.map((feed) => new Article(Date.now().toString() + Math.random().toString(), feed.links[0].url, feed.title, feed.description, feed.published, false,))
             setArticles(tempArticles)
